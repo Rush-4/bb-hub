@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Moon, Toggle } from 'lucide-react';
+import { Moon } from 'lucide-react';
 import StudyMaterials from '@/components/StudyMaterials';
 import Updates from '@/components/Updates';
 import MemeWeek from '@/components/MemeWeek';
