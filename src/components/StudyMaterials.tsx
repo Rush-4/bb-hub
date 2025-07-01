@@ -5,14 +5,28 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Upload } from 'lucide-react';
+import { Upload, Download } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+
+interface Material {
+  id: number;
+  title: string;
+  uploader: string;
+  date: string;
+  downloads: number;
+  type: string;
+  subject: string;
+  file?: File;
+  fileUrl?: string;
+}
 
 const StudyMaterials = () => {
+  const { toast } = useToast();
   const [uploaderName, setUploaderName] = useState('');
   const [materialTitle, setMaterialTitle] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showUploadForm, setShowUploadForm] = useState(false);
-  const [materials, setMaterials] = useState([
+  const [materials, setMaterials] = useState<Material[]>([
     {
       id: 1,
       title: 'Calculus Final Exam Notes',
@@ -69,18 +83,27 @@ const StudyMaterials = () => {
 
   const handleUpload = () => {
     if (uploaderName && materialTitle && selectedFile) {
-      const newMaterial = {
+      // Create a URL for the file to enable download
+      const fileUrl = URL.createObjectURL(selectedFile);
+      
+      const newMaterial: Material = {
         id: materials.length + 1,
         title: materialTitle,
         uploader: uploaderName,
         date: new Date().toISOString().split('T')[0],
         downloads: 0,
         type: getFileType(selectedFile.name),
-        subject: getSubjectFromTitle(materialTitle)
+        subject: getSubjectFromTitle(materialTitle),
+        file: selectedFile,
+        fileUrl: fileUrl
       };
 
       setMaterials([newMaterial, ...materials]);
-      console.log('Material uploaded successfully:', newMaterial);
+      
+      toast({
+        title: "Material uploaded successfully!",
+        description: `${materialTitle} has been added to the study materials.`,
+      });
       
       // Reset form
       setUploaderName('');
@@ -94,13 +117,40 @@ const StudyMaterials = () => {
     }
   };
 
-  const handleDownload = (materialId: number) => {
-    setMaterials(materials.map(material => 
-      material.id === materialId 
-        ? { ...material, downloads: material.downloads + 1 }
-        : material
-    ));
-    console.log('Download initiated for material ID:', materialId);
+  const handleDownload = (material: Material) => {
+    if (material.fileUrl && material.file) {
+      // Create download link
+      const link = document.createElement('a');
+      link.href = material.fileUrl;
+      link.download = `${material.title}.${material.type.toLowerCase()}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Update download count
+      setMaterials(materials.map(m => 
+        m.id === material.id 
+          ? { ...m, downloads: m.downloads + 1 }
+          : m
+      ));
+      
+      toast({
+        title: "Download started!",
+        description: `Downloading ${material.title}...`,
+      });
+    } else {
+      // For demo materials without actual files
+      toast({
+        title: "Demo Download",
+        description: `This is a demo material. In a real app, ${material.title} would be downloaded.`,
+      });
+      
+      setMaterials(materials.map(m => 
+        m.id === material.id 
+          ? { ...m, downloads: m.downloads + 1 }
+          : m
+      ));
+    }
   };
 
   return (
@@ -201,10 +251,11 @@ const StudyMaterials = () => {
                   <Badge variant="outline">{material.type}</Badge>
                   <Button 
                     size="sm" 
-                    className="bg-green-500 hover:bg-green-600"
-                    onClick={() => handleDownload(material.id)}
+                    className="bg-green-500 hover:bg-green-600 flex items-center space-x-1"
+                    onClick={() => handleDownload(material)}
                   >
-                    Download
+                    <Download className="h-4 w-4" />
+                    <span>Download</span>
                   </Button>
                 </div>
               </div>

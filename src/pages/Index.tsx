@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +12,7 @@ import Leaderboard from '@/components/Leaderboard';
 import ExamCountdown from '@/components/ExamCountdown';
 import TodoList from '@/components/TodoList';
 import FeedbackBox from '@/components/FeedbackBox';
+import ChatSystem from '@/components/ChatSystem';
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -98,7 +100,7 @@ const Index = () => {
         {/* Enhanced Tabs */}
         <Tabs defaultValue="materials" className="space-y-8">
           <div className="flex justify-center">
-            <TabsList className="grid grid-cols-3 lg:grid-cols-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-1 rounded-2xl">
+            <TabsList className="grid grid-cols-3 lg:grid-cols-7 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-1 rounded-2xl">
               <TabsTrigger value="materials" className="flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">
                 <BookOpen className="h-4 w-4" />
                 <span className="hidden sm:inline">Materials</span>
@@ -118,6 +120,10 @@ const Index = () => {
               <TabsTrigger value="todo" className="flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">
                 <CheckSquare className="h-4 w-4" />
                 <span className="hidden sm:inline">Tasks</span>
+              </TabsTrigger>
+              <TabsTrigger value="chat" className="flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-500 data-[state=active]:text-white">
+                <MessageCircle className="h-4 w-4" />
+                <span className="hidden sm:inline">Chat</span>
               </TabsTrigger>
               <TabsTrigger value="feedback" className="flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-rose-500 data-[state=active]:text-white">
                 <MessageCircle className="h-4 w-4" />
@@ -145,6 +151,10 @@ const Index = () => {
 
             <TabsContent value="todo" className="space-y-6">
               <TodoList />
+            </TabsContent>
+
+            <TabsContent value="chat" className="space-y-6">
+              <ChatSystem />
             </TabsContent>
 
             <TabsContent value="feedback" className="space-y-6">
