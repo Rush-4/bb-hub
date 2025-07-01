@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Upload } from 'lucide-react';
 
 const StudyMaterials = () => {
   const [uploaderName, setUploaderName] = useState('');
   const [materialTitle, setMaterialTitle] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showUploadForm, setShowUploadForm] = useState(false);
-
-  const materials = [
+  const [materials, setMaterials] = useState([
     {
       id: 1,
       title: 'Calculus Final Exam Notes',
@@ -39,15 +40,67 @@ const StudyMaterials = () => {
       type: 'PDF',
       subject: 'Chemistry'
     }
-  ];
+  ]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      console.log('File selected:', file.name);
+    }
+  };
+
+  const getFileType = (fileName: string) => {
+    const extension = fileName.split('.').pop()?.toUpperCase();
+    return extension || 'FILE';
+  };
+
+  const getSubjectFromTitle = (title: string) => {
+    const titleLower = title.toLowerCase();
+    if (titleLower.includes('math') || titleLower.includes('calculus') || titleLower.includes('algebra')) return 'Mathematics';
+    if (titleLower.includes('physics')) return 'Physics';
+    if (titleLower.includes('chemistry') || titleLower.includes('chem')) return 'Chemistry';
+    if (titleLower.includes('biology') || titleLower.includes('bio')) return 'Biology';
+    if (titleLower.includes('english') || titleLower.includes('literature')) return 'English';
+    if (titleLower.includes('history')) return 'History';
+    if (titleLower.includes('computer') || titleLower.includes('programming')) return 'Computer Science';
+    return 'General';
+  };
 
   const handleUpload = () => {
-    if (uploaderName && materialTitle) {
-      console.log('Uploading material:', { uploaderName, materialTitle });
+    if (uploaderName && materialTitle && selectedFile) {
+      const newMaterial = {
+        id: materials.length + 1,
+        title: materialTitle,
+        uploader: uploaderName,
+        date: new Date().toISOString().split('T')[0],
+        downloads: 0,
+        type: getFileType(selectedFile.name),
+        subject: getSubjectFromTitle(materialTitle)
+      };
+
+      setMaterials([newMaterial, ...materials]);
+      console.log('Material uploaded successfully:', newMaterial);
+      
+      // Reset form
       setUploaderName('');
       setMaterialTitle('');
+      setSelectedFile(null);
       setShowUploadForm(false);
+      
+      // Reset file input
+      const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
     }
+  };
+
+  const handleDownload = (materialId: number) => {
+    setMaterials(materials.map(material => 
+      material.id === materialId 
+        ? { ...material, downloads: material.downloads + 1 }
+        : material
+    ));
+    console.log('Download initiated for material ID:', materialId);
   };
 
   return (
@@ -56,7 +109,7 @@ const StudyMaterials = () => {
       <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-2 border-dashed border-blue-300 dark:border-blue-600">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <span>📤</span>
+            <Upload className="h-5 w-5" />
             <span>Upload Study Material</span>
           </CardTitle>
         </CardHeader>
@@ -88,13 +141,37 @@ const StudyMaterials = () => {
                   placeholder="e.g., Math Final Study Guide"
                 />
               </div>
+              <div>
+                <Label htmlFor="file-upload">Select File</Label>
+                <Input
+                  id="file-upload"
+                  type="file"
+                  onChange={handleFileChange}
+                  accept=".pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx"
+                  className="cursor-pointer"
+                />
+                {selectedFile && (
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                  </p>
+                )}
+              </div>
               <div className="flex space-x-2">
-                <Button onClick={handleUpload} className="flex-1">
+                <Button 
+                  onClick={handleUpload} 
+                  className="flex-1"
+                  disabled={!uploaderName || !materialTitle || !selectedFile}
+                >
                   Upload File
                 </Button>
                 <Button 
                   variant="outline" 
-                  onClick={() => setShowUploadForm(false)}
+                  onClick={() => {
+                    setShowUploadForm(false);
+                    setSelectedFile(null);
+                    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+                    if (fileInput) fileInput.value = '';
+                  }}
                   className="flex-1"
                 >
                   Cancel
@@ -122,7 +199,11 @@ const StudyMaterials = () => {
                 <div className="flex items-center space-x-2">
                   <Badge variant="secondary">{material.subject}</Badge>
                   <Badge variant="outline">{material.type}</Badge>
-                  <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                  <Button 
+                    size="sm" 
+                    className="bg-green-500 hover:bg-green-600"
+                    onClick={() => handleDownload(material.id)}
+                  >
                     Download
                   </Button>
                 </div>
