@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -165,9 +164,6 @@ const Index = () => {
               </div>
               <span className="font-semibold text-gray-700 dark:text-gray-300">Study Hub Squad</span>
             </div>
-            <p className="text-gray-600 dark:text-gray-400">
-              Made with ❤️ for our awesome study squad! Keep learning, keep growing! 🚀
-            </p>
             <div className="flex justify-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
               <span>🎯 Focus • 📈 Growth • 🤝 Community</span>
             </div>
