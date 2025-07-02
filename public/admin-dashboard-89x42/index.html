@@ -1,22 +1,97 @@
-<!-- public/admin-dashboard-89x42/index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <title>Admin Panel Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fceabb, #f8b500);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .card h2 {
+      margin-bottom: 1rem;
+      color: #e74c3c;
+    }
+    input[type="password"] {
+      padding: 10px;
+      width: 80%;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d35400;
+    }
+    .admin-content {
+      display: none;
+      margin-top: 20px;
+    }
+    .admin-content ul {
+      list-style: none;
+      padding: 0;
+    }
+    .admin-content li {
+      margin: 10px 0;
+      background: #f2f2f2;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-  <h2>🔒 Admin PIN Access</h2>
-  <input type="password" id="pin" placeholder="Enter PIN">
-  <button onclick="checkPIN()">Login</button>
+  <div class="card">
+    <h2>🔒 Admin PIN Access</h2>
+    <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4" />
+    <br>
+    <button onclick="checkPin()">Access Dashboard</button>
+
+    <div class="admin-content" id="adminContent">
+      <h3>Welcome Admin 👋</h3>
+      <ul>
+        <li>📢 Post Announcements</li>
+        <li>📅 Upload Timetables</li>
+        <li>👥 Manage Users</li>
+        <li>📚 Upload Study Materials</li>
+      </ul>
+    </div>
+  </div>
 
   <script>
-    function checkPIN() {
+    function checkPin() {
       const pin = document.getElementById("pin").value;
-      if (pin === "2024") {
+      const correctPIN = "2024";
+
+      if (pin === correctPIN) {
         alert("Welcome, Admin! 🎉");
-        // Optional: redirect or show content
+        document.getElementById("adminContent").style.display = "block";
       } else {
-        alert("Wrong PIN ❌");
+        alert("❌ Incorrect PIN. Try again.");
+        document.getElementById("adminContent").style.display = "none";
       }
     }
   </script>
