@@ -1,97 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel Access</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #fceabb, #f8b500);
       margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ffec99, #f8b500);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
     }
+
     .card {
-      background: white;
-      padding: 2rem;
+      background-color: white;
       border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      width: 100%;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      padding: 2rem;
+      width: 90%;
       max-width: 400px;
       text-align: center;
     }
-    .card h2 {
-      margin-bottom: 1rem;
+
+    h2 {
       color: #e74c3c;
+      margin-bottom: 1rem;
     }
-    input[type="password"] {
+
+    input {
       padding: 10px;
       width: 80%;
       font-size: 1.2rem;
       margin: 1rem 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
       text-align: center;
     }
+
     button {
       padding: 10px 20px;
       background-color: #e67e22;
       color: white;
       border: none;
       border-radius: 6px;
-      font-weight: bold;
       font-size: 1rem;
       cursor: pointer;
+      margin-bottom: 1rem;
     }
+
     button:hover {
       background-color: #d35400;
     }
+
     .admin-content {
       display: none;
       margin-top: 20px;
     }
-    .admin-content ul {
-      list-style: none;
-      padding: 0;
+
+    .admin-content h3 {
+      margin-bottom: 10px;
     }
-    .admin-content li {
+
+    .admin-content button {
+      display: block;
+      width: 100%;
       margin: 10px 0;
-      background: #f2f2f2;
-      padding: 10px;
-      border-radius: 6px;
+      background: #eee;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .admin-content button:hover {
+      background-color: #ddd;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>🔒 Admin PIN Access</h2>
-    <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4" />
+    <h2>🔐 <span style="color:#e67e22;">Admin PIN Access</span></h2>
+    <input type="password" id="pinInput" placeholder="Enter PIN" maxlength="4" />
     <br>
-    <button onclick="checkPin()">Access Dashboard</button>
+    <button onclick="verifyPIN()">Access Dashboard</button>
 
-    <div class="admin-content" id="adminContent">
-      <h3>Welcome Admin 👋</h3>
-      <ul>
-        <li>📢 Post Announcements</li>
-        <li>📅 Upload Timetables</li>
-        <li>👥 Manage Users</li>
-        <li>📚 Upload Study Materials</li>
-      </ul>
+    <div class="admin-content" id="adminSection">
+      <h3>👋 Welcome Admin</h3>
+      <button>📢 Post Announcements</button>
+      <button>📅 Upload Timetables</button>
+      <button>👥 Manage Users</button>
+      <button>📚 Upload Study Materials</button>
     </div>
   </div>
 
   <script>
-    function checkPin() {
-      const pin = document.getElementById("pin").value;
+    function verifyPIN() {
+      const enteredPIN = document.getElementById("pinInput").value;
       const correctPIN = "2024";
 
-      if (pin === correctPIN) {
-        alert("Welcome, Admin! 🎉");
-        document.getElementById("adminContent").style.display = "block";
+      if (enteredPIN === correctPIN) {
+        document.getElementById("adminSection").style.display = "block";
+        document.getElementById("pinInput").value = "";
       } else {
         alert("❌ Incorrect PIN. Try again.");
-        document.getElementById("adminContent").style.display = "none";
+        document.getElementById("adminSection").style.display = "none";
       }
     }
   </script>
