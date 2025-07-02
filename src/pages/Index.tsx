@@ -266,28 +266,24 @@ const Index = () => {
 
       <div className="flex">
         {/* Sidebar Navigation */}
-        <aside className="w-80 min-h-screen bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border-r border-gray-200/50 dark:border-gray-700/50 p-6">
+        <aside className="w-16 min-h-screen bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border-r border-gray-200/50 dark:border-gray-700/50 p-3">
           <nav className="space-y-2">
             {navigationItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveSection(item.id)}
-                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 text-left ${
+                className={`w-full flex items-center justify-center p-3 rounded-xl transition-all duration-200 group relative ${
                   activeSection === item.id
                     ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
                     : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                 }`}
+                title={item.label}
               >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium truncate">{item.label}</p>
-                  <p className={`text-xs truncate ${
-                    activeSection === item.id 
-                      ? 'text-white/80' 
-                      : 'text-gray-500 dark:text-gray-400'
-                  }`}>
-                    {item.description}
-                  </p>
+                <item.icon className="h-5 w-5" />
+                
+                {/* Tooltip on hover */}
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 pointer-events-none">
+                  {item.label}
                 </div>
               </button>
             ))}
