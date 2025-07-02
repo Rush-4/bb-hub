@@ -1,0 +1,24 @@
+<!-- public/admin-dashboard-89x42/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+</head>
+<body>
+  <h2>🔒 Admin PIN Access</h2>
+  <input type="password" id="pin" placeholder="Enter PIN">
+  <button onclick="checkPIN()">Login</button>
+
+  <script>
+    function checkPIN() {
+      const pin = document.getElementById("pin").value;
+      if (pin === "2024") {
+        alert("Welcome, Admin! 🎉");
+        // Optional: redirect or show content
+      } else {
+        alert("Wrong PIN ❌");
+      }
+    }
+  </script>
+</body>
+</html>
