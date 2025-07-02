@@ -13,8 +13,11 @@ const ExamCountdown = () => {
     seconds: 45
   });
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditCountdown, setShowEditCountdown] = useState(false);
+  const [nextExam, setNextExam] = useState('Physics Midterm');
   const [examName, setExamName] = useState('');
   const [examDate, setExamDate] = useState('');
+  const [editExamName, setEditExamName] = useState('Physics Midterm');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -50,6 +53,11 @@ const ExamCountdown = () => {
     }
   };
 
+  const handleEditCountdown = () => {
+    setNextExam(editExamName);
+    setShowEditCountdown(false);
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Main Countdown */}
@@ -57,7 +65,17 @@ const ExamCountdown = () => {
         <CardHeader>
           <CardTitle className="text-center">
             <div className="text-2xl mb-2">⏰</div>
-            <div>Next Exam: Physics Midterm</div>
+            <div className="flex items-center justify-center gap-2">
+              <span>Next Exam: {nextExam}</span>
+              <Button 
+                onClick={() => setShowEditCountdown(true)}
+                size="sm"
+                variant="ghost"
+                className="h-6 w-6 p-0"
+              >
+                ✏️
+              </Button>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -133,6 +151,34 @@ const ExamCountdown = () => {
                 </Button>
                 <Button 
                   onClick={() => setShowAddForm(false)} 
+                  size="sm" 
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {showEditCountdown && (
+            <div className="space-y-3 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+              <div>
+                <Label htmlFor="editExamName">Next Exam Name</Label>
+                <Input
+                  id="editExamName"
+                  value={editExamName}
+                  onChange={(e) => setEditExamName(e.target.value)}
+                  placeholder="e.g., Physics Midterm"
+                  className="mt-1"
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button onClick={handleEditCountdown} size="sm" className="flex-1">
+                  Update
+                </Button>
+                <Button 
+                  onClick={() => setShowEditCountdown(false)} 
                   size="sm" 
                   variant="outline"
                   className="flex-1"

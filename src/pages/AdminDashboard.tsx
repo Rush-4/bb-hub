@@ -152,6 +152,15 @@ const AdminDashboard = () => {
     });
   };
 
+  const handleRemoveUser = (userId: number) => {
+    setUsers(users.filter(user => user.id !== userId));
+    toast({
+      title: "User Removed",
+      description: "User has been successfully removed from the system.",
+      variant: "destructive",
+    });
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 dark:from-red-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 flex items-center justify-center p-6">
@@ -542,9 +551,19 @@ const AdminDashboard = () => {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Button size="sm" variant="outline">
-                            <Edit className="h-4 w-4" />
-                          </Button>
+                          <div className="flex space-x-2">
+                            <Button size="sm" variant="outline">
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleRemoveUser(user.id)}
+                              className="text-red-600 hover:bg-red-50"
+                            >
+                              <Trash className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
