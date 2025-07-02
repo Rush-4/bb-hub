@@ -23,10 +23,10 @@ const Index = () => {
   };
 
   const quickStats = [
-    { icon: BookOpen, label: 'Study Materials', value: '23', color: 'from-blue-500 to-cyan-500', bgColor: 'bg-blue-50 dark:bg-blue-900/20' },
-    { icon: TrendingUp, label: 'Recent Updates', value: '12', color: 'from-green-500 to-emerald-500', bgColor: 'bg-green-50 dark:bg-green-900/20' },
-    { icon: Users, label: 'Active Members', value: '8', color: 'from-purple-500 to-pink-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20' },
-    { icon: Trophy, label: 'Memes Posted', value: '45', color: 'from-orange-500 to-red-500', bgColor: 'bg-orange-50 dark:bg-orange-900/20' }
+    { icon: BookOpen, label: 'Study Materials', value: '0', color: 'from-blue-500 to-cyan-500', bgColor: 'bg-blue-50 dark:bg-blue-900/20' },
+    { icon: TrendingUp, label: 'Recent Updates', value: '0', color: 'from-green-500 to-emerald-500', bgColor: 'bg-green-50 dark:bg-green-900/20' },
+    { icon: Users, label: 'Active Members', value: '0', color: 'from-purple-500 to-pink-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20' },
+    { icon: Trophy, label: 'Memes Posted', value: '0', color: 'from-orange-500 to-red-500', bgColor: 'bg-orange-50 dark:bg-orange-900/20' }
   ];
 
   return (
